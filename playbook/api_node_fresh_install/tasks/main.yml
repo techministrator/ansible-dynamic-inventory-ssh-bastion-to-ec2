@@ -1,0 +1,22 @@
+---
+- name: Download CAN Package
+  get_url:
+    url: https://github.com/canfoundation/CAN/releases/download/can-v1.0.0/cannet_1.0.0-ubuntu-18.04_amd64.deb
+    dest: /home/ubuntu/
+- name: Install CAN Package
+  apt: deb="/home/ubuntu/cannet_1.0.0-ubuntu-18.04_amd64.deb"
+- name: copy script file
+  copy:
+    src: "{{ item }}"
+    dest: /home/ubuntu/api-node/
+    owner: ubuntu
+    mode: 0755
+  with_fileglob:
+    - files/*.sh
+- name: copy genesis.json file
+  copy: 
+    src: files/genesis.json
+    dest: /home/ubuntu/api-node/
+    owner: ubuntu
+- name: run genesis_start.sh
+  command: sh /home/ubuntu/api-node/genesis_start.sh

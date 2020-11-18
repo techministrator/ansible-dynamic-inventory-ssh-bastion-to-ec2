@@ -1,0 +1,11 @@
+---
+- hosts: "{{ bastion_name }}"
+  gather_facts: False
+  tasks:
+    - name: gather ec2 info
+      ec2_metadata_facts:
+
+- hosts: "{{ group_name }}"
+  become: yes
+  roles: 
+    - role: api_node_fresh_install

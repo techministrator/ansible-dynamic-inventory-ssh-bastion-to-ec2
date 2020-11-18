@@ -1,0 +1,23 @@
+plugin: aws_ec2
+regions: 
+  - ap-southeast-1
+  - ap-east-1
+  - ap-northeast-2
+  - us-west-1
+
+strict: False
+
+filters:
+  tag:Name: API Node*
+
+keyed_groups:
+  - key: tags['Name']
+    prefix: all
+  - key: placement.region
+    prefix: api_node
+
+hostnames:
+  - private-ip-address
+  - instance-id  # If there's no private-ip-address value (instance-offline) then show Instance Id
+  - tag:Name     # If there's no ip-address value, this attribute will be shown in inventory graph
+  - ip-address   # If there's no ip-address, tag:Name value, this attribute will be shown in inventory graph

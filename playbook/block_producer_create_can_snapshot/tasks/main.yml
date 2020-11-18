@@ -1,0 +1,16 @@
+---
+- name: install jq
+  become: yes
+  apt: 
+    name: jq
+    state: latest
+- name: copy script file
+  copy:
+    src: "{{ item }}"
+    dest: /home/ubuntu/
+    owner: ubuntu
+    mode: 0755
+  with_fileglob:
+    - files/can_create_snapshot.sh
+- name: create snapshot
+  command: bash /home/ubuntu/can_create_snapshot.sh
